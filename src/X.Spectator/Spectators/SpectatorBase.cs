@@ -5,9 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using X.Spectator.Base;
 
-namespace X.Spectator
+namespace X.Spectator.Spectators
 {
-    public class Spectator<TState> : ISpectator<TState> where TState : struct
+    public class SpectatorBase<TState> : ISpectator<TState> where TState : struct
     {
         private TState _state;
 
@@ -58,7 +58,7 @@ namespace X.Spectator
 
         public TimeSpan RetentionPeriod { get; private set; }
 
-        public Spectator(IStateEvaluator<TState> stateEvaluator, TimeSpan retentionPeriod)
+        public SpectatorBase(IStateEvaluator<TState> stateEvaluator, TimeSpan retentionPeriod)
         {
             RetentionPeriod = retentionPeriod;
             StateChangedDate = DateTime.UtcNow;
@@ -127,28 +127,6 @@ namespace X.Spectator
 
         protected virtual void OnHealthChecked(DateTime now, IReadOnlyCollection<Record> results) =>
             HealthChecked?.Invoke(this, new HealthCheckEventArgs(now, results));
-    }
-
-    public class AutomatedSpectator<TState> : Spectator<TState> where TState : struct
-    {
-        public TimeSpan CheckHealthPeriod { get; }
-
-        private readonly System.Timers.Timer _timer;
-
-        public AutomatedSpectator(
-            TimeSpan checkHealthPeriod,
-            TimeSpan retentionPeriod,
-            IStateEvaluator<TState> stateEvaluator)
-            : base(stateEvaluator, retentionPeriod)
-        {
-            CheckHealthPeriod = checkHealthPeriod;
-
-            _timer = new System.Timers.Timer(CheckHealthPeriod.TotalMilliseconds);
-            _timer.Elapsed += (sender, args) => CheckHealth();
-            _timer.AutoReset = true;
-        }
-
-        public void Start() => _timer.Start();
     }
 }
  

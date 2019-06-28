@@ -10,5 +10,4 @@ namespace X.Spectator.Base
             DateTime stateChangedLastTime, 
             IReadOnlyCollection<JournalRecord> journal);
     }
-    
 }

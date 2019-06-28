@@ -10,5 +10,7 @@ namespace X.Spectator.Base
         TState State { get; }
         
         void AddProbe(IProbe probe);
+
+        void CheckHealth();
     }
 }

@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X.Spectator", "src\X.Spectator\X.Spectator.csproj", "{77C51FB0-02E5-46BB-AE11-9F6405DCA896}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B5C2EB14-B4D6-4BDE-9614-A09ADB736051}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,8 @@ Global
 		{77C51FB0-02E5-46BB-AE11-9F6405DCA896}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77C51FB0-02E5-46BB-AE11-9F6405DCA896}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77C51FB0-02E5-46BB-AE11-9F6405DCA896}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{77C51FB0-02E5-46BB-AE11-9F6405DCA896} = {B5C2EB14-B4D6-4BDE-9614-A09ADB736051}
 	EndGlobalSection
 EndGlobal

@@ -1,25 +1,26 @@
 using System;
-using X.Monitor.Base;
+using System.Threading.Tasks;
+using X.Spectator.Base;
 
-namespace X.Monitor
+namespace X.Spectator
 {
     public class Probe : IProbe
     {
-        private readonly Func<bool> _func;
+        private readonly Func<Task<bool>> _func;
         
         public string Name { get; }
 
-        public Probe(string name, Func<bool> func)
+        public Probe(string name, Func<Task<bool>> func)
         {
             Name = name;
             _func = func;
         }
 
-        public bool GetState()
+        public async Task<bool> Ready()
         {
             try
             {
-                return _func();
+                return await _func();
             }
             catch
             {

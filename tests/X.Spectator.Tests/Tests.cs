@@ -24,29 +24,22 @@ namespace X.Spectator.Tests
                 {C(true), C(true), C(false), C(true), C(false), C(true), C(true), C(true)}
             );
 
+            IProbe probe1 = new Probe("Test-1", () =>
+            {
+                var probeResult = probe1States.Dequeue();
+
+                return Task.FromResult(probeResult);
+            });
+            
+            IProbe probe2 = new Probe("Test-2", () =>
+            {
+                var probeResult = probe2States.Dequeue();
+
+                return Task.FromResult(probeResult);
+            });
+
             var stateEvaluatorMock = new Mock<IStateEvaluator<State>>();
-            var probe1Mock = new Mock<IProbe>();
-            var probe2Mock = new Mock<IProbe>();
             
-            probe1Mock
-                .Setup(o => o.Ready())
-                .Returns(() =>
-                {
-                    var probeResult = probe1States.Dequeue();
-                    
-                    return Task.FromResult(probeResult);
-                });
-            
-            probe2Mock
-                .Setup(o => o.Ready())
-                .Returns(() =>
-                {
-                    var probeResult = probe2States.Dequeue();
-                    
-                    return Task.FromResult(probeResult);
-                });
-
-
             stateEvaluatorMock
                 .Setup(o => o.Evaluate(
                     It.IsAny<State>(),
@@ -70,9 +63,6 @@ namespace X.Spectator.Tests
                     return State.Down;
                 });
 
-            IProbe probe1 = probe1Mock.Object;
-            IProbe probe2 = probe2Mock.Object;
-            
             IStateEvaluator<State> stateEvaluator = stateEvaluatorMock.Object;
             TimeSpan retentionPeriod = TimeSpan.FromMinutes(10);
             

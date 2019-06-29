@@ -13,12 +13,12 @@ namespace X.Spectator.Base
         /// Health check results
         /// </summary>
         [NotNull]
-        public IReadOnlyCollection<Record> Results { get; }
+        public IReadOnlyCollection<ProbeResult> Results { get; }
 
-        public HealthCheckEventArgs(DateTime timeStamp, IReadOnlyCollection<Record> results)
+        public HealthCheckEventArgs(DateTime timeStamp, IReadOnlyCollection<ProbeResult> results)
         {
             TimeStamp = timeStamp;
-            Results = results ?? ImmutableList<Record>.Empty;
+            Results = results ?? ImmutableList<ProbeResult>.Empty;
         }
     }
 }

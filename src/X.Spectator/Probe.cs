@@ -6,25 +6,32 @@ namespace X.Spectator
 {
     public class Probe : IProbe
     {
-        private readonly Func<Task<bool>> _func;
+        private readonly Func<Task<ProbeResult>> _func;
         
         public string Name { get; }
 
-        public Probe(string name, Func<Task<bool>> func)
+        public Probe(string name, Func<Task<ProbeResult>> func)
         {
             Name = name;
             _func = func;
         }
 
-        public async Task<bool> Ready()
+        public async Task<ProbeResult> Ready()
         {
             try
             {
                 return await _func();
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                return new ProbeResult
+                {
+                    ProbeName = Name,
+                    Time = DateTime.UtcNow,
+                    Success = false,
+                    Data = "",
+                    Exception = ex
+                };
             }
         } 
             

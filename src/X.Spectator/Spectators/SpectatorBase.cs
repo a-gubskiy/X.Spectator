@@ -7,7 +7,8 @@ using X.Spectator.Base;
 
 namespace X.Spectator.Spectators
 {
-    public class SpectatorBase<TState> : ISpectator<TState> where TState : struct
+    public class SpectatorBase<TState> : ISpectator<TState> 
+        where TState : struct, IConvertible
     {
         private TState _state;
 
@@ -58,9 +59,10 @@ namespace X.Spectator.Spectators
 
         public TimeSpan RetentionPeriod { get; private set; }
 
-        public SpectatorBase(IStateEvaluator<TState> stateEvaluator, TimeSpan retentionPeriod)
+        public SpectatorBase(IStateEvaluator<TState> stateEvaluator, TimeSpan retentionPeriod, TState initialState)
         {
             RetentionPeriod = retentionPeriod;
+            _state = initialState;
             StateChangedDate = DateTime.UtcNow;
 
             _stateEvaluator = stateEvaluator;
@@ -90,10 +92,10 @@ namespace X.Spectator.Spectators
 
         public virtual void CheckHealth()
         {
-            var results = new Stack<Record>();
+            var results = new Stack<ProbeResult>();
 
             var tasks = _probes
-                .Select(async o => { results.Push(new Record {Name = o.Name, Value = await o.Ready()}); })
+                .Select(async o => { results.Push(await o.Ready()); })
                 .ToArray();
 
             Task.WaitAll(tasks);
@@ -117,15 +119,15 @@ namespace X.Spectator.Spectators
             //Recalculate state
             var state = _stateEvaluator.Evaluate(State, StateChangedDate, _journal);
 
-            if (EqualityComparer<TState>.Default.Equals(State , state))
+            if (!EqualityComparer<TState>.Default.Equals(State, state))
             {
-                ChangeState(state, results.Where(o => !o.Value).Select(o => o.Name));
+                ChangeState(state, results.Where(o => !o.Success).Select(o => o.ProbeName));
             }
-         
+
             OnHealthChecked(now, results);
         }
 
-        protected virtual void OnHealthChecked(DateTime now, IReadOnlyCollection<Record> results) =>
+        protected virtual void OnHealthChecked(DateTime now, IReadOnlyCollection<ProbeResult> results) =>
             HealthChecked?.Invoke(this, new HealthCheckEventArgs(now, results));
     }
 }

@@ -3,12 +3,14 @@ using X.Spectator.Base;
 
 namespace X.Spectator.Spectators
 {
-    public interface IAutomatedSpectator<TState> : ISpectator<TState> where TState : struct
+    public interface IAutomatedSpectator<TState> : ISpectator<TState> 
+        where TState : struct, IConvertible
     {
         void Start();
     }
 
-    public class AutomatedSpectator<TState> : SpectatorBase<TState>, IAutomatedSpectator<TState> where TState : struct
+    public class AutomatedSpectator<TState> : SpectatorBase<TState>, IAutomatedSpectator<TState> 
+        where TState : struct, IConvertible
     {
         public TimeSpan CheckHealthPeriod { get; }
 
@@ -17,8 +19,8 @@ namespace X.Spectator.Spectators
         public AutomatedSpectator(
             TimeSpan checkHealthPeriod,
             TimeSpan retentionPeriod,
-            IStateEvaluator<TState> stateEvaluator)
-            : base(stateEvaluator, retentionPeriod)
+            IStateEvaluator<TState> stateEvaluator, TState initialState)
+            : base(stateEvaluator, retentionPeriod, initialState)
         {
             CheckHealthPeriod = checkHealthPeriod;
 

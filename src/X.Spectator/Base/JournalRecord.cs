@@ -13,6 +13,7 @@ namespace X.Spectator.Base
         }
 
         public DateTime Time { get; set; }
+        
         public IReadOnlyCollection<ProbeResult> Values { get; set; }
 
         public override string ToString() => $"{Time}: [{string.Join(",", Values)}]";

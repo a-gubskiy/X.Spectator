@@ -9,6 +9,10 @@ namespace X.Spectator.Base
         
         TState State { get; }
         
+        TimeSpan Uptime { get; }
+        
+        string Name { get; }
+        
         void AddProbe(IProbe probe);
 
         void CheckHealth();

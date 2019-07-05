@@ -26,16 +26,16 @@ namespace X.Spectator.Tests
 
             IProbe probe1 = new Probe("Test-1", () =>
             {
-                var probeResult = probe1States.Dequeue();
-
-                return Task.FromResult(probeResult);
+                var result = probe1States.Dequeue();
+                result.ProbeName = "Test-1";
+                return Task.FromResult(result);
             });
             
             IProbe probe2 = new Probe("Test-2", () =>
             {
-                var probeResult = probe2States.Dequeue();
-
-                return Task.FromResult(probeResult);
+                var result = probe2States.Dequeue();
+                result.ProbeName = "Test-2";
+                return Task.FromResult(result);
             });
 
             var stateEvaluatorMock = new Mock<IStateEvaluator<State>>();

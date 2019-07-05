@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,9 +16,10 @@ namespace X.Spectator.Spectators
         private readonly IList<IProbe> _probes;
         private readonly IStateEvaluator<TState> _stateEvaluator;
         private readonly List<JournalRecord> _journal;
-        private readonly ReaderWriterLockSlim _journalLock = new ReaderWriterLockSlim();
-        private readonly ReaderWriterLockSlim _stateLock = new ReaderWriterLockSlim();
-        
+        private readonly ReaderWriterLockSlim _journalLock;
+        private readonly ReaderWriterLockSlim _stateLock;
+        private readonly Stopwatch _stopwatch;
+
         public event EventHandler<StateEventArgs<TState>> StateChanged;
         public event EventHandler<HealthCheckEventArgs> HealthChecked;
 
@@ -37,6 +39,10 @@ namespace X.Spectator.Spectators
                 }
             }
         }
+
+        public TimeSpan Uptime => _stopwatch.Elapsed;
+
+        public string Name { get; set; }
 
         public IReadOnlyCollection<JournalRecord> Journal
         {
@@ -64,10 +70,13 @@ namespace X.Spectator.Spectators
             RetentionPeriod = retentionPeriod;
             _state = initialState;
             StateChangedDate = DateTime.UtcNow;
-
+            
             _stateEvaluator = stateEvaluator;
+            _stopwatch = Stopwatch.StartNew();
             _probes = new List<IProbe>();
             _journal = new List<JournalRecord>();
+            _journalLock = new ReaderWriterLockSlim();
+            _stateLock = new ReaderWriterLockSlim();
         }
 
         public void AddProbe(IProbe probe) => _probes.Add(probe);

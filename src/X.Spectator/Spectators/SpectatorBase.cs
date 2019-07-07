@@ -104,7 +104,7 @@ namespace X.Spectator.Spectators
             var results = new Stack<ProbeResult>();
 
             var tasks = _probes
-                .Select(async o => { results.Push(await o.Ready()); })
+                .Select(async o => { results.Push(await o.Check()); })
                 .ToArray();
 
             Task.WaitAll(tasks);

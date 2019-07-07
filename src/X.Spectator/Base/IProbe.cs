@@ -6,6 +6,6 @@ namespace X.Spectator.Base
     {
         string Name { get; }
         
-        Task<ProbeResult> Ready();
+        Task<ProbeResult> Check();
     }
 }

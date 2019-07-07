@@ -7,8 +7,8 @@ namespace X.Spectator.StateEvaluators
     public abstract class DiscreteStateEvaluator : IStateEvaluator<int>
     {
         protected readonly int Min;
-        protected  readonly int Max;
-        protected  readonly int Step;
+        protected readonly int Max;
+        protected readonly int Step;
 
         public DiscreteStateEvaluator(int min, int max, int step)
         {

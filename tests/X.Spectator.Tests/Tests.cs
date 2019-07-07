@@ -116,12 +116,12 @@ namespace X.Spectator.Tests
             var probeMock = new Mock<IProbe>();
             
             probeMock
-                .Setup(o => o.Ready())
+                .Setup(o => o.Check())
                 .Returns(() => Task.FromResult(C(true)));
             
             var probe = probeMock.Object;
 
-            var result = await probe.Ready();
+            var result = await probe.Check();
             
             Assert.True(result.Success);
         }

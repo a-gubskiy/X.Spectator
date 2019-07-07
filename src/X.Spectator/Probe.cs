@@ -16,7 +16,7 @@ namespace X.Spectator
             _func = func;
         }
 
-        public async Task<ProbeResult> Ready()
+        public async Task<ProbeResult> Check()
         {
             try
             {

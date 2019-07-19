@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Example.API.Probes;
+using Example.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using System;
+using X.Spectator.Base;
 
 namespace Example.API
 {
@@ -25,6 +23,22 @@ namespace Example.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services
+                .AddSingleton<IServiceA, ServiceA>()
+                .AddSingleton<IServiceB, ServiceB>()
+                .AddSingleton<IAServiceProbe, AServiceProbe>()
+                .AddSingleton<IBServiceProbe, BServiceProbe>()
+                .AddSingleton<IStateEvaluator<SystemState>, SystemStateEvaluator>()
+                .AddSingleton<SystemSpectator>(CreateSystemSpectator);
+        }
+
+        private SystemSpectator CreateSystemSpectator(IServiceProvider ctx)
+        {
+            var stateEvaluator = ctx.GetService<IStateEvaluator<SystemState>>();
+            var retentionPeriod = TimeSpan.FromMinutes(5);
+
+            return new SystemSpectator(stateEvaluator, retentionPeriod, SystemState.Normal);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

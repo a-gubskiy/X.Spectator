@@ -1,13 +1,15 @@
-﻿using Example.API.App_Code.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
+using Example.API.Services;
 using X.Spectator.Base;
 
-namespace Example.API.App_Code.Probes
+namespace Example.API.Probes
 {
-    public class BServiceProbe : IProbe
+    public interface IBServiceProbe : IProbe
+    {
+    }
+
+    public class BServiceProbe : IBServiceProbe
     {
         private readonly IServiceB _service;
 

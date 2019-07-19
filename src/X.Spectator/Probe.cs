@@ -20,7 +20,7 @@ namespace X.Spectator
         {
             try
             {
-                return await _func();
+                return await _func().ConfigureAwait(false);
             }
             catch (Exception ex)
             {

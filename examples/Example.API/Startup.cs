@@ -22,13 +22,17 @@ namespace Example.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services
+                .AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services
-                .AddSingleton<IServiceA, ServiceA>()
-                .AddSingleton<IServiceB, ServiceB>()
-                .AddSingleton<IAServiceProbe, AServiceProbe>()
-                .AddSingleton<IBServiceProbe, BServiceProbe>()
+                .AddHostedService<CityHostedService>();
+
+            services
+                .AddSingleton<ILibraryService, LibraryService>()
+                .AddSingleton<IPublishingHouseService, PublishingHouseService>()
+                .AddSingleton<ILibraryServiceProbe, LibraryServiceProbe>()
                 .AddSingleton<IStateEvaluator<SystemState>, SystemStateEvaluator>()
                 .AddSingleton<SystemSpectator>(CreateSystemSpectator);
         }

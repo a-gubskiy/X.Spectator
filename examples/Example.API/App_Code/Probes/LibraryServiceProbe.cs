@@ -5,17 +5,17 @@ using X.Spectator.Base;
 
 namespace Example.API.Probes
 {
-    public interface IAServiceProbe : IProbe
+    public interface ILibraryServiceProbe : IProbe
     {
     }
 
-    public class AServiceProbe : IAServiceProbe
+    public class LibraryServiceProbe : ILibraryServiceProbe
     {
-        private readonly IServiceA _service;
+        private readonly ILibraryService _service;
 
-        public string Name => "A Service Probe";
+        public string Name => "Library Service Probe";
 
-        public AServiceProbe(IServiceA service)
+        public LibraryServiceProbe(LibraryService service)
         {
             _service = service;
         }
@@ -31,7 +31,7 @@ namespace Example.API.Probes
 
             try
             {
-                if (_service.Count > 5)
+                if (_service.TotalBookCount > 20)
                 {
                     result.Success = true;
                 }

@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Example.API.Services;
+using Example.App.Services;
 using X.Spectator.Base;
 
-namespace Example.API.Probes
+namespace Example.App.Probes
 {
-    public interface ILibraryServiceProbe : IProbe
+    /// <summary>
+    /// Example probe
+    /// </summary>
+    public class LibraryServiceProbe : IProbe
     {
-    }
-
-    public class LibraryServiceProbe : ILibraryServiceProbe
-    {
-        private readonly ILibraryService _service;
+        private readonly LibraryService _service;
+        private readonly int _minimumBookCount;
 
         public string Name => "Library Service Probe";
 
-        public LibraryServiceProbe(LibraryService service)
+        public LibraryServiceProbe(LibraryService service, int minimumBookCount)
         {
             _service = service;
+            _minimumBookCount = minimumBookCount;
         }
 
         public Task<ProbeResult> Check()
@@ -31,7 +32,7 @@ namespace Example.API.Probes
 
             try
             {
-                if (_service.TotalBookCount > 20)
+                if (_service.TotalBookCount > _minimumBookCount)
                 {
                     result.Success = true;
                 }

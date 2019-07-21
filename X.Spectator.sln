@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "X.Spectator.Tests", "tests\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{6C8BF4AC-A18B-4858-B1D6-B041EF0EE605}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.API", "examples\Example.API\Example.API.csproj", "{2540B17B-A65C-403D-87AE-BDF3CA958B36}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.App", "examples\Example.App\Example.App.csproj", "{2540B17B-A65C-403D-87AE-BDF3CA958B36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

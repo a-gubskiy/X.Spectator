@@ -2,6 +2,15 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Title>X.Spectator</Title>
+        <Description>Framework for monitoring the state of the system and system modules.</Description>
+        <Copyright>Andrew Gubskiy</Copyright>
+        <PackageProjectUrl>https://github.com/ernado-x/x.spectator</PackageProjectUrl>
+        <PackageLicenseUrl>https://raw.githubusercontent.com/ernado-x/X.Spectator/master/LICENSE</PackageLicenseUrl>
+        <PackageIconUrl>https://ru.gravatar.com/userimage/8071071/f2dc08ee7e4016451f64a7ae9cffd110.png?size=200</PackageIconUrl>
+        <RepositoryUrl>https://github.com/ernado-x/x.spectator</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
     </PropertyGroup>
 
     <ItemGroup>

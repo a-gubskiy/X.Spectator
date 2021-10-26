@@ -1,7 +1,9 @@
 using System;
+using JetBrains.Annotations;
 
 namespace X.Spectator.Base
 {
+    [PublicAPI]
     public struct ProbeResult
     {
         /// <summary>

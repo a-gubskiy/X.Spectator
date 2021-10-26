@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using JetBrains.Annotations;
 
 namespace X.Spectator.Base
 {
+    [PublicAPI]
     public class StateEventArgs<TState> : EventArgs
     {
         public StateEventArgs(TState state, DateTime timeStamp, IEnumerable<string> failedProbes)

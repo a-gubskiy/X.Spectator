@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace X.Spectator.Base
 {
+    [PublicAPI]
     public interface IStateEvaluator<TState>
     {
         TState Evaluate(

@@ -20,8 +20,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="JetBrains.Annotations" Version="2019.1.1" />
-      <PackageReference Include="System.Collections.Immutable" Version="1.5.0" />
+      <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
+      <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
     </ItemGroup>
 
 </Project>

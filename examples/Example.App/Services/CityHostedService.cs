@@ -15,7 +15,6 @@ namespace Example.App.Services
         private readonly System.Timers.Timer _timer;
         private readonly LibraryService _library;
         private readonly PublishingHouseService _publishingHouse;
-        
         private readonly SystemSpectator _spectator;
 
         public CityHostedService(

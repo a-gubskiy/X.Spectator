@@ -35,6 +35,5 @@ public class Probe : IProbe
                 Exception = ex
             };
         }
-    } 
-            
+    }
 }

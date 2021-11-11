@@ -1,10 +1,9 @@
-namespace X.Spectator.Tests
+namespace X.Spectator.Tests;
+
+public enum State
 {
-    public enum State
-    {
-        Unknown,
-        Live,
-        Warning,
-        Down
-    }
+    Unknown,
+    Live,
+    Warning,
+    Down
 }

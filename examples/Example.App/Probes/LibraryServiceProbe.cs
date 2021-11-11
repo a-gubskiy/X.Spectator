@@ -26,7 +26,7 @@ namespace Example.App.Probes
             var result = new ProbeResult
             {
                 Time = DateTime.UtcNow,
-                ProbeName = this.Name,
+                ProbeName = Name,
                 Success = false
             };
 

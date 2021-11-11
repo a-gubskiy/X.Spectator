@@ -26,7 +26,11 @@ namespace Example.App.Services
             _library = library;
             _publishingHouse = publishingHouse;
             _spectator = spectator;
-            _timer = new System.Timers.Timer(1000);
+
+            var interval = TimeSpan.FromSeconds(5);
+            
+            _timer = new System.Timers.Timer(interval.TotalMilliseconds);
+            _timer.Elapsed += TimerOnElapsed;
             
             _spectator.StateChanged += SpectatorOnStateChanged;
             _spectator.HealthChecked += SpectatorOnHealthChecked;
@@ -49,7 +53,6 @@ namespace Example.App.Services
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            _timer.Elapsed += TimerOnElapsed;
             _timer.Start();
         }
 

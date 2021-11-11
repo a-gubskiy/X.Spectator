@@ -12,7 +12,9 @@ namespace Example.App
             var last = journal.Cast<JournalRecord?>().LastOrDefault();
 
             if (last == null)
+            {
                 return SystemState.Normal;
+            }
 
             return last.Value.Values.Any(o => !o.Success)
                 ? SystemState.Danger

@@ -16,9 +16,7 @@ namespace Example.App
                 .ConfigureServices((hostContext, services) =>
                 {
                     services
-                        .AddHostedService<CityHostedService>(  );
-
-                    services
+                        .AddHostedService<CityHostedService>()
                         .AddSingleton<LibraryService>()
                         .AddSingleton<PublishingHouseService>()
                         .AddSingleton<LibraryServiceProbe>(CreateLibraryServiceProbe)

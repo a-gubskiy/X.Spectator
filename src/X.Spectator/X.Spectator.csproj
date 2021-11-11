@@ -11,6 +11,7 @@
         <PackageIconUrl>https://ru.gravatar.com/userimage/8071071/f2dc08ee7e4016451f64a7ae9cffd110.png?size=200</PackageIconUrl>
         <RepositoryUrl>https://github.com/ernado-x/x.spectator</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
+        <LangVersion>default</LangVersion>
     </PropertyGroup>
 
     <PropertyGroup>

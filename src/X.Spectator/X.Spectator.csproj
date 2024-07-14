@@ -5,26 +5,30 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>X.Spectator</Title>
         <Description>Framework for monitoring the state of the system and system modules.</Description>
-        <Copyright>Andrew Gubskiy</Copyright>
+        <Authors>Andrew Gubskiy</Authors>
+        <Copyright>Andrew Gubskiy © 2024</Copyright>
         <PackageProjectUrl>https://github.com/ernado-x/x.spectator</PackageProjectUrl>
-        <PackageLicenseUrl>https://raw.githubusercontent.com/ernado-x/X.Spectator/master/LICENSE</PackageLicenseUrl>
         <PackageIconUrl>https://ru.gravatar.com/userimage/8071071/f2dc08ee7e4016451f64a7ae9cffd110.png?size=200</PackageIconUrl>
         <RepositoryUrl>https://github.com/ernado-x/x.spectator</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <LangVersion>default</LangVersion>
         <Nullable>enable</Nullable>
-    </PropertyGroup>
 
-    <PropertyGroup>
-        <Build>$([System.DateTime]::op_Subtraction($([System.DateTime]::get_Now().get_Date()),$([System.DateTime]::new(2000,1,1))).get_TotalDays())</Build>
-        <Revision>$([MSBuild]::Divide($([System.DateTime]::get_Now().get_TimeOfDay().get_TotalSeconds()), 2).ToString('F0'))</Revision>
-        <Version>1.0.$(Build).$(Revision)</Version>
+        <Version>2.0.3</Version>
+        <AssemblyVersion>2.0.3</AssemblyVersion>
+        <FileVersion>2.0.3</FileVersion>
+        <PackageVersion>2.0.3</PackageVersion>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="JetBrains.Annotations" Version="2024.2.0" PrivateAssets="all" />
-      <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" Version="8.0.7" />
-      <PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
+        <None Include="..\..\LICENSE" Pack="true" PackagePath=""/>
+        <None Include="..\..\README.md" Pack="true" PackagePath=""/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="JetBrains.Annotations" Version="2024.2.0" PrivateAssets="all"/>
+        <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" Version="8.0.7"/>
+        <PackageReference Include="System.Collections.Immutable" Version="8.0.0"/>
     </ItemGroup>
 
 </Project>

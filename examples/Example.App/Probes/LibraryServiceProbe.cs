@@ -3,47 +3,46 @@ using System.Threading.Tasks;
 using Example.App.Services;
 using X.Spectator.Base;
 
-namespace Example.App.Probes
+namespace Example.App.Probes;
+
+/// <summary>
+/// Example probe
+/// </summary>
+public class LibraryServiceProbe : IProbe
 {
-    /// <summary>
-    /// Example probe
-    /// </summary>
-    public class LibraryServiceProbe : IProbe
+    private readonly LibraryService _service;
+    private readonly int _minimumBookCount;
+
+    public string Name => "Library Service Probe";
+
+    public LibraryServiceProbe(LibraryService service, int minimumBookCount)
     {
-        private readonly LibraryService _service;
-        private readonly int _minimumBookCount;
+        _service = service;
+        _minimumBookCount = minimumBookCount;
+    }
 
-        public string Name => "Library Service Probe";
-
-        public LibraryServiceProbe(LibraryService service, int minimumBookCount)
+    public Task<ProbeResult> Check()
+    {
+        var result = new ProbeResult
         {
-            _service = service;
-            _minimumBookCount = minimumBookCount;
+            Time = DateTime.UtcNow,
+            ProbeName = Name,
+            Success = false
+        };
+
+        try
+        {
+            if (_service.TotalBookCount > _minimumBookCount)
+            {
+                result.Success = true;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.Exception = ex;
+            result.Data = ex.Message;
         }
 
-        public Task<ProbeResult> Check()
-        {
-            var result = new ProbeResult
-            {
-                Time = DateTime.UtcNow,
-                ProbeName = Name,
-                Success = false
-            };
-
-            try
-            {
-                if (_service.TotalBookCount > _minimumBookCount)
-                {
-                    result.Success = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                result.Exception = ex;
-                result.Data = ex.Message;
-            }
-
-            return Task.FromResult(result);
-        }
+        return Task.FromResult(result);
     }
 }

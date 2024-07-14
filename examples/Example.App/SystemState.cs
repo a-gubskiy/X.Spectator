@@ -1,8 +1,7 @@
-﻿namespace Example.App
+﻿namespace Example.App;
+
+public enum SystemState
 {
-    public enum SystemState
-    {
-        Normal,
-        Danger
-    }
+    Normal,
+    Danger
 }

@@ -31,7 +31,7 @@ public struct ProbeResult
     /// <summary>
     /// Provides exception information.
     /// </summary>
-    public Exception Exception { get; set; }
+    public Exception? Exception { get; set; }
     
     /// <summary>
     /// Returns the fully qualified type name of this instance.

@@ -4,11 +4,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using X.Spectator.Base;
 
 namespace X.Spectator.Spectators;
 
+[PublicAPI]
 public class SpectatorBase<TState> : ISpectator<TState> 
     where TState : struct, IConvertible
 {

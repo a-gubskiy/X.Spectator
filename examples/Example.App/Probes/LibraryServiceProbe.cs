@@ -27,14 +27,14 @@ public class LibraryServiceProbe : IProbe
         {
             Time = DateTime.UtcNow,
             ProbeName = Name,
-            Success = false
+            Status = false
         };
 
         try
         {
             if (_service.TotalBookCount > _minimumBookCount)
             {
-                result.Success = true;
+                result.Status = true;
             }
         }
         catch (Exception ex)

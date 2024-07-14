@@ -11,9 +11,9 @@ public struct ProbeResult
     /// </summary>
     public string ProbeName { get; set; }
     public DateTime Time { get; set; }
-    public bool Success { get; set; }
+    public bool Status { get; set; }
     public string Data { get; set; }
     public Exception Exception { get; set; }
 
-    public override string ToString() => $"{Time}: {Success}";
+    public override string ToString() => $"{Time}: {Status}";
 }

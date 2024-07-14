@@ -30,7 +30,7 @@ public class Probe : IProbe
             {
                 ProbeName = Name,
                 Time = DateTime.UtcNow,
-                Success = false,
+                Status = false,
                 Data = "",
                 Exception = ex
             };

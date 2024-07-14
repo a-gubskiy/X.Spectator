@@ -130,7 +130,7 @@ public class SpectatorBase<TState> : ISpectator<TState>
 
         if (!EqualityComparer<TState>.Default.Equals(State, state))
         {
-            ChangeState(state, results.Where(o => o.Success == false).Select(o => o.ProbeName));
+            ChangeState(state, results.Where(o => o.Status == false).Select(o => o.ProbeName));
         }
 
         OnHealthChecked(now, results);

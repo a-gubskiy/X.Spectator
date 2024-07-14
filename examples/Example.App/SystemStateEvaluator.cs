@@ -16,7 +16,7 @@ public class SystemStateEvaluator : IStateEvaluator<SystemState>
             return SystemState.Normal;
         }
 
-        return last.Value.Values.Any(o => !o.Success)
+        return last.Value.Values.Any(o => o.Success == false)
             ? SystemState.Danger
             : SystemState.Normal;
     }

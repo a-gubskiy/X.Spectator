@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using X.Spectator.Base;
 
 namespace X.Spectator;
@@ -30,7 +31,7 @@ public class Probe : IProbe
             {
                 ProbeName = Name,
                 Time = DateTime.UtcNow,
-                Status = false,
+                Status = HealthStatus.Unhealthy,
                 Data = "",
                 Exception = ex
             };

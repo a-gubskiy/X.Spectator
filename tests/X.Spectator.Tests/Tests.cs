@@ -53,7 +53,7 @@ public class Tests
                 var data = journal.TakeLast(3).ToImmutableList();
 
                 var totalChecks = data.Count;
-                var failedChecks = data.Count(o => o.Values.Any(v => v.Status == false));
+                var failedChecks = data.Count(o => o.Values.Any(v => v.Status == HealthStatus.Unhealthy));
 
                 if (failedChecks == 0)
                     return HealthStatus.Healthy;
@@ -102,7 +102,7 @@ public class Tests
     {
         return new ProbeResult
         {
-            Status = value,
+            Status = value ? HealthStatus.Healthy : HealthStatus.Unhealthy,
             Data = "",
             Time = DateTime.UtcNow,
             Exception = null,
@@ -123,6 +123,6 @@ public class Tests
 
         var result = await probe.Check();
             
-        Assert.True(result.Status);
+        Assert.True(result.Status == HealthStatus.Healthy);
     }
 }

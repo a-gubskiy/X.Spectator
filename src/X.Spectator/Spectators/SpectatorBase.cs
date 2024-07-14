@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using X.Spectator.Base;
 
 namespace X.Spectator.Spectators;
@@ -130,7 +131,7 @@ public class SpectatorBase<TState> : ISpectator<TState>
 
         if (!EqualityComparer<TState>.Default.Equals(State, state))
         {
-            ChangeState(state, results.Where(o => o.Status == false).Select(o => o.ProbeName));
+            ChangeState(state, results.Where(o => o.Status == HealthStatus.Unhealthy).Select(o => o.ProbeName));
         }
 
         OnHealthChecked(now, results);

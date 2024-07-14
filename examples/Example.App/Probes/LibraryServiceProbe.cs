@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Example.App.Services;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using X.Spectator.Base;
 
 namespace Example.App.Probes;
@@ -27,14 +28,14 @@ public class LibraryServiceProbe : IProbe
         {
             Time = DateTime.UtcNow,
             ProbeName = Name,
-            Status = false
+            Status = HealthStatus.Unhealthy
         };
 
         try
         {
             if (_service.TotalBookCount > _minimumBookCount)
             {
-                result.Status = true;
+                result.Status = HealthStatus.Healthy;
             }
         }
         catch (Exception ex)

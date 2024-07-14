@@ -12,6 +12,7 @@
         <RepositoryUrl>https://github.com/ernado-x/x.spectator</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <LangVersion>default</LangVersion>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <PropertyGroup>

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
@@ -25,13 +26,12 @@ public struct ProbeResult
     /// <summary>
     /// Provides diagnostic data.
     /// </summary>
-    public string Data { get; set; }
+    public IReadOnlyDictionary<string, object> Data { get; set; }
     
     /// <summary>
     /// Provides exception information.
     /// </summary>
     public Exception Exception { get; set; }
-
     
     /// <summary>
     /// Returns the fully qualified type name of this instance.

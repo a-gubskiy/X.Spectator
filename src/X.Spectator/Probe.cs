@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Immutable;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -32,7 +33,7 @@ public class Probe : IProbe
                 ProbeName = Name,
                 Time = DateTime.UtcNow,
                 Status = HealthStatus.Unhealthy,
-                Data = "",
+                Data = ImmutableDictionary<string, object>.Empty, 
                 Exception = ex
             };
         }

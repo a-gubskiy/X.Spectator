@@ -103,7 +103,7 @@ public class Tests
         return new ProbeResult
         {
             Status = value ? HealthStatus.Healthy : HealthStatus.Unhealthy,
-            Data = "",
+            Data = ImmutableDictionary<string, object>.Empty,
             Time = DateTime.UtcNow,
             Exception = null,
             ProbeName = "TEST"

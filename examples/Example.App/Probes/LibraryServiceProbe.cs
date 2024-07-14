@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Example.App.Services;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -41,7 +42,7 @@ public class LibraryServiceProbe : IProbe
         catch (Exception ex)
         {
             result.Exception = ex;
-            result.Data = ex.Message;
+            result.Data = new Dictionary<string, object>{{"exception-message", ex.Message}};
         }
 
         return Task.FromResult(result);

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Example.App.Probes;
 using Example.App.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using X.Spectator.Base;
 
@@ -20,7 +21,7 @@ public class Program
                     .AddSingleton<LibraryService>()
                     .AddSingleton<PublishingHouseService>()
                     .AddSingleton<LibraryServiceProbe>(CreateLibraryServiceProbe)
-                    .AddSingleton<IStateEvaluator<SystemState>, SystemStateEvaluator>()
+                    .AddSingleton<IStateEvaluator<HealthStatus>, SystemStateEvaluator>()
                     .AddSingleton<SystemSpectator>(CreateSystemSpectator);
             })
             .Build();
@@ -38,11 +39,11 @@ public class Program
 
     private static SystemSpectator CreateSystemSpectator(IServiceProvider ctx)
     {
-        var stateEvaluator = ctx.GetService<IStateEvaluator<SystemState>>();
+        var stateEvaluator = ctx.GetService<IStateEvaluator<HealthStatus>>();
         var libraryServiceProbe = ctx.GetService<LibraryServiceProbe>();
         var retentionPeriod = TimeSpan.FromMinutes(5);
         var checkHealthPeriod = TimeSpan.FromMilliseconds(500);
-        var spectator = new SystemSpectator(checkHealthPeriod, stateEvaluator, retentionPeriod, SystemState.Normal);
+        var spectator = new SystemSpectator(checkHealthPeriod, stateEvaluator, retentionPeriod, HealthStatus.Healthy);
             
         spectator.AddProbe(libraryServiceProbe);
             

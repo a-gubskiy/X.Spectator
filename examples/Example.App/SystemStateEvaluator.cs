@@ -6,19 +6,21 @@ using X.Spectator.Base;
 
 namespace Example.App;
 
-public class SystemStateEvaluator : IStateEvaluator<SystemState>
+public class SystemStateEvaluator : IStateEvaluator<HealthStatus>
 {
-    public SystemState Evaluate(SystemState currentState, DateTime stateChangedLastTime, IReadOnlyCollection<JournalRecord> journal)
+    public HealthStatus Evaluate(HealthStatus currentState, DateTime stateChangedLastTime, IReadOnlyCollection<JournalRecord> journal)
     {
         var last = journal.Cast<JournalRecord?>().LastOrDefault();
 
         if (last == null)
         {
-            return SystemState.Normal;
+            return HealthStatus.Healthy;
         }
+        
+        
 
         return last.Value.Values.Any(o => o.Status == HealthStatus.Unhealthy)
-            ? SystemState.Danger
-            : SystemState.Normal;
+            ? HealthStatus.Degraded
+            : HealthStatus.Healthy;
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using X.Spectator.Base;
 
@@ -43,9 +44,9 @@ public class CityHostedService : IHostedService
         Console.WriteLine($"Health checked: [{string.Join(", ", e.Results)}]");
     }
 
-    private void SpectatorOnStateChanged(object sender, StateEventArgs<SystemState> e)
+    private void SpectatorOnStateChanged(object sender, StateEventArgs<HealthStatus> e)
     {
-        Console.ForegroundColor = e.State == SystemState.Danger ? ConsoleColor.Red : ConsoleColor.Green;
+        Console.ForegroundColor = e.State == HealthStatus.Degraded ? ConsoleColor.Red : ConsoleColor.Green;
         Console.WriteLine($"State changed to: {e.State}");
         Console.ForegroundColor = ConsoleColor.White;
     }
@@ -59,7 +60,7 @@ public class CityHostedService : IHostedService
     {
         GetBookFromLibrary();
 
-        if (_spectator.State == SystemState.Danger)
+        if (_spectator.State == HealthStatus.Degraded)
         {
             GetNewBooksFromPublishingHouse();
         }

@@ -4,10 +4,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using X.Spectator.Base;
 
 namespace X.Spectator.Spectators;
 
+[PublicAPI]
 public class SpectatorBase<TState> : ISpectator<TState> 
     where TState : struct, IConvertible
 {
@@ -20,8 +23,9 @@ public class SpectatorBase<TState> : ISpectator<TState>
     private readonly ReaderWriterLockSlim _stateLock;
     private readonly Stopwatch _stopwatch;
 
-    public event EventHandler<StateEventArgs<TState>> StateChanged;
-    public event EventHandler<HealthCheckEventArgs> HealthChecked;
+    public event EventHandler<StateEventArgs<TState>>? StateChanged;
+    
+    public event EventHandler<HealthCheckEventArgs>? HealthChecked;
 
     public virtual TState State
     {
@@ -68,9 +72,10 @@ public class SpectatorBase<TState> : ISpectator<TState>
     public SpectatorBase(IStateEvaluator<TState> stateEvaluator, TimeSpan retentionPeriod, TState initialState)
     {
         RetentionPeriod = retentionPeriod;
-        _state = initialState;
         StateChangedDate = DateTime.UtcNow;
+        Name = "";
             
+        _state = initialState;
         _stateEvaluator = stateEvaluator;
         _stopwatch = Stopwatch.StartNew();
         _probes = new List<IProbe>();
@@ -130,7 +135,7 @@ public class SpectatorBase<TState> : ISpectator<TState>
 
         if (!EqualityComparer<TState>.Default.Equals(State, state))
         {
-            ChangeState(state, results.Where(o => !o.Success).Select(o => o.ProbeName));
+            ChangeState(state, results.Where(o => o.Status == HealthStatus.Unhealthy).Select(o => o.ProbeName));
         }
 
         OnHealthChecked(now, results);

@@ -4,7 +4,7 @@ using System.Collections.Immutable;
 
 namespace X.Spectator.Base;
 
-public struct JournalRecord
+public class JournalRecord
 {
     public JournalRecord(DateTime time, IEnumerable<ProbeResult> values)
     {

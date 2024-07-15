@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Moq;
 using X.Spectator.Base;
 using X.Spectator.Spectators;
@@ -38,41 +39,40 @@ public class Tests
             return Task.FromResult(result);
         });
 
-        var stateEvaluatorMock = new Mock<IStateEvaluator<State>>();
+        var stateEvaluatorMock = new Mock<IStateEvaluator<HealthStatus>>();
             
         stateEvaluatorMock
             .Setup(o => o.Evaluate(
-                It.IsAny<State>(),
+                It.IsAny<HealthStatus>(),
                 It.IsAny<DateTime>(),
                 It.IsAny<IReadOnlyCollection<JournalRecord>>()))
-            .Returns((State currentState,
+            .Returns((HealthStatus currentState,
                 DateTime stateChangedLastTime,
                 IReadOnlyCollection<JournalRecord> journal) =>
             {
                 var data = journal.TakeLast(3).ToImmutableList();
 
                 var totalChecks = data.Count;
-                var failedChecks = data.Count(o => o.Values.Any(v => v.Success == false));
+                var failedChecks = data.Count(o => o.Values.Any(v => v.Status == HealthStatus.Unhealthy));
 
                 if (failedChecks == 0)
-                    return State.Live;
+                    return HealthStatus.Healthy;
 
                 if (failedChecks == 1)
-                    return State.Warning;
+                    return HealthStatus.Degraded;
 
-                return State.Down;
+                return HealthStatus.Unhealthy;
             });
 
-        IStateEvaluator<State> stateEvaluator = stateEvaluatorMock.Object;
+        IStateEvaluator<HealthStatus> stateEvaluator = stateEvaluatorMock.Object;
         TimeSpan retentionPeriod = TimeSpan.FromMinutes(10);
             
-        var spectator = new SpectatorBase<State>(stateEvaluator, retentionPeriod, State.Unknown);
-
+        var spectator = new SpectatorBase<HealthStatus>(stateEvaluator, retentionPeriod, HealthStatus.Unhealthy);
             
         spectator.AddProbe(probe1);
         spectator.AddProbe(probe2);
 
-        var states = new List<State>();
+        var states = new List<HealthStatus>();
 
         spectator.HealthChecked += (sender, args) =>
         {
@@ -89,9 +89,9 @@ public class Tests
             spectator.CheckHealth();
         }
 
-        var expected = new State[]
+        var expected = new HealthStatus[]
         {
-            State.Live, State.Warning, State.Down, State.Warning, State.Live
+            HealthStatus.Healthy, HealthStatus.Degraded, HealthStatus.Unhealthy, HealthStatus.Degraded, HealthStatus.Healthy
         };
 
             
@@ -102,8 +102,8 @@ public class Tests
     {
         return new ProbeResult
         {
-            Success = value,
-            Data = "",
+            Status = value ? HealthStatus.Healthy : HealthStatus.Unhealthy,
+            Data = ImmutableDictionary<string, object>.Empty,
             Time = DateTime.UtcNow,
             Exception = null,
             ProbeName = "TEST"
@@ -123,6 +123,6 @@ public class Tests
 
         var result = await probe.Check();
             
-        Assert.True(result.Success);
+        Assert.True(result.Status == HealthStatus.Healthy);
     }
 }

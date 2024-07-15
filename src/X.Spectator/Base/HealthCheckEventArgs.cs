@@ -18,6 +18,6 @@ public class HealthCheckEventArgs : EventArgs
     public HealthCheckEventArgs(DateTime timeStamp, IReadOnlyCollection<ProbeResult> results)
     {
         TimeStamp = timeStamp;
-        Results = results ?? ImmutableList<ProbeResult>.Empty;
+        Results = results.ToImmutableList();
     }
 }

@@ -10,15 +10,13 @@ public class SystemStateEvaluator : IStateEvaluator<HealthStatus>
 {
     public HealthStatus Evaluate(HealthStatus currentState, DateTime stateChangedLastTime, IReadOnlyCollection<JournalRecord> journal)
     {
-        var last = journal.Cast<JournalRecord?>().LastOrDefault();
+        var last = journal.LastOrDefault();
 
         if (last == null)
         {
             return HealthStatus.Healthy;
         }
         
-        
-
         return last.Values.Any(o => o.Status == HealthStatus.Unhealthy)
             ? HealthStatus.Degraded
             : HealthStatus.Healthy;

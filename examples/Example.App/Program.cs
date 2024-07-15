@@ -46,7 +46,7 @@ public class Program
         var spectator = new SystemSpectator(checkHealthPeriod, stateEvaluator, retentionPeriod, HealthStatus.Healthy);
             
         spectator.AddProbe(libraryServiceProbe);
-            
+
         spectator.Start();
             
         return spectator;

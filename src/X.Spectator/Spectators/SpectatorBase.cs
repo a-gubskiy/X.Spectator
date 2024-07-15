@@ -23,8 +23,9 @@ public class SpectatorBase<TState> : ISpectator<TState>
     private readonly ReaderWriterLockSlim _stateLock;
     private readonly Stopwatch _stopwatch;
 
-    public event EventHandler<StateEventArgs<TState>> StateChanged;
-    public event EventHandler<HealthCheckEventArgs> HealthChecked;
+    public event EventHandler<StateEventArgs<TState>>? StateChanged;
+    
+    public event EventHandler<HealthCheckEventArgs>? HealthChecked;
 
     public virtual TState State
     {
@@ -71,9 +72,10 @@ public class SpectatorBase<TState> : ISpectator<TState>
     public SpectatorBase(IStateEvaluator<TState> stateEvaluator, TimeSpan retentionPeriod, TState initialState)
     {
         RetentionPeriod = retentionPeriod;
-        _state = initialState;
         StateChangedDate = DateTime.UtcNow;
+        Name = "";
             
+        _state = initialState;
         _stateEvaluator = stateEvaluator;
         _stopwatch = Stopwatch.StartNew();
         _probes = new List<IProbe>();

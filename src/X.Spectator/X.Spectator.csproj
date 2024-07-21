@@ -7,22 +7,26 @@
         <Description>Framework for monitoring the state of the system and system modules.</Description>
         <Authors>Andrew Gubskiy</Authors>
         <Copyright>Andrew Gubskiy © 2024</Copyright>
-        <PackageProjectUrl>https://github.com/ernado-x/x.spectator</PackageProjectUrl>
-        <PackageIconUrl>https://ru.gravatar.com/userimage/8071071/f2dc08ee7e4016451f64a7ae9cffd110.png?size=200</PackageIconUrl>
-        <RepositoryUrl>https://github.com/ernado-x/x.spectator</RepositoryUrl>
-        <RepositoryType>git</RepositoryType>
+        <Company>Ukrainian .NET Developer Community</Company>
         <LangVersion>default</LangVersion>
-        <Nullable>enable</Nullable>
-
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageIconUrl>https://ru.gravatar.com/userimage/8071071/f2dc08ee7e4016451f64a7ae9cffd110.png?size=200</PackageIconUrl>
         <Version>2.0.3</Version>
         <AssemblyVersion>2.0.3</AssemblyVersion>
         <FileVersion>2.0.3</FileVersion>
         <PackageVersion>2.0.3</PackageVersion>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/ernado-x/x.spectator</RepositoryUrl>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="..\..\LICENSE" Pack="true" PackagePath=""/>
-        <None Include="..\..\README.md" Pack="true" PackagePath=""/>
+        <None Include="../../LICENSE" Pack="true" PackagePath=""/>
+        <None Include="../../README.md" Pack="true" PackagePath=""/>
     </ItemGroup>
 
     <ItemGroup>
@@ -32,3 +36,6 @@
     </ItemGroup>
 
 </Project>
+
+
+

@@ -3,54 +3,52 @@ using System.Threading.Tasks;
 using Example.App.Probes;
 using Example.App.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using X.Spectator.Base;
 
-namespace Example.App
+namespace Example.App;
+
+public class Program
 {
-    public class Program
+    public static async Task Main(string[] args)
     {
-        public static async Task Main(string[] args)
-        {
-            var host = new HostBuilder()
-                .ConfigureServices((hostContext, services) =>
-                {
-                    services
-                        .AddHostedService<CityHostedService>(  );
+        var host = new HostBuilder()
+            .ConfigureServices((hostContext, services) =>
+            {
+                services
+                    .AddHostedService<CityHostedService>()
+                    .AddSingleton<LibraryService>()
+                    .AddSingleton<PublishingHouseService>()
+                    .AddSingleton<LibraryServiceProbe>(CreateLibraryServiceProbe)
+                    .AddSingleton<IStateEvaluator<HealthStatus>, SystemStateEvaluator>()
+                    .AddSingleton<SystemSpectator>(CreateSystemSpectator);
+            })
+            .Build();
 
-                    services
-                        .AddSingleton<LibraryService>()
-                        .AddSingleton<PublishingHouseService>()
-                        .AddSingleton<LibraryServiceProbe>(CreateLibraryServiceProbe)
-                        .AddSingleton<IStateEvaluator<SystemState>, SystemStateEvaluator>()
-                        .AddSingleton<SystemSpectator>(CreateSystemSpectator);
-                })
-                .Build();
+        await host.RunAsync();
+    }
 
-            await host.RunAsync();
-        }
+    private static LibraryServiceProbe CreateLibraryServiceProbe(IServiceProvider ctx)
+    {
+        var minimumBookCount = 20;
+        var libraryService = ctx.GetService<LibraryService>();
+            
+        return new LibraryServiceProbe(libraryService, minimumBookCount);
+    }
 
-        private static LibraryServiceProbe CreateLibraryServiceProbe(IServiceProvider ctx)
-        {
-            var minimumBookCount = 20;
-            var libraryService = ctx.GetService<LibraryService>();
+    private static SystemSpectator CreateSystemSpectator(IServiceProvider ctx)
+    {
+        var stateEvaluator = ctx.GetService<IStateEvaluator<HealthStatus>>();
+        var libraryServiceProbe = ctx.GetService<LibraryServiceProbe>();
+        var retentionPeriod = TimeSpan.FromMinutes(5);
+        var checkHealthPeriod = TimeSpan.FromMilliseconds(500);
+        var spectator = new SystemSpectator(checkHealthPeriod, stateEvaluator, retentionPeriod, HealthStatus.Healthy);
             
-            return new LibraryServiceProbe(libraryService, minimumBookCount);
-        }
+        spectator.AddProbe(libraryServiceProbe);
 
-        private static SystemSpectator CreateSystemSpectator(IServiceProvider ctx)
-        {
-            var stateEvaluator = ctx.GetService<IStateEvaluator<SystemState>>();
-            var libraryServiceProbe = ctx.GetService<LibraryServiceProbe>();
-            var retentionPeriod = TimeSpan.FromMinutes(5);
-            var checkHealthPeriod = TimeSpan.FromMilliseconds(500);
-            var spectator = new SystemSpectator(checkHealthPeriod, stateEvaluator, retentionPeriod, SystemState.Normal);
+        spectator.Start();
             
-            spectator.AddProbe(libraryServiceProbe);
-            
-            spectator.Start();
-            
-            return spectator;
-        }
+        return spectator;
     }
 }

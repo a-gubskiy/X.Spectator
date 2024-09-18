@@ -1,20 +1,44 @@
 using System;
+using JetBrains.Annotations;
 
-namespace X.Spectator.Base
+namespace X.Spectator.Base;
+
+[PublicAPI]
+public interface ISpectator<TState> where TState : struct, IConvertible
 {
-    public interface ISpectator<TState> where TState : struct, IConvertible
-    {
-        event EventHandler<StateEventArgs<TState>> StateChanged;
-        event EventHandler<HealthCheckEventArgs> HealthChecked;
+    /// <summary>
+    /// Event that is triggered when the state of the spectator changes.
+    /// </summary>
+    event EventHandler<StateEventArgs<TState>> StateChanged;
+    
+    /// <summary>
+    /// Event that is triggered when the health of the spectator is checked.
+    /// </summary>
+    event EventHandler<HealthCheckEventArgs> HealthChecked;
         
-        TState State { get; }
+    /// <summary>
+    /// State of the spectator.
+    /// </summary>
+    TState State { get; }
         
-        TimeSpan Uptime { get; }
+    /// <summary>
+    /// Uptime of the spectator.
+    /// </summary>
+    TimeSpan Uptime { get; }
         
-        string Name { get; }
-        
-        void AddProbe(IProbe probe);
+    /// <summary>
+    /// Name of the spectator.
+    /// </summary>
+    string Name { get; }
+     
+    /// <summary>
+    /// Adds a probe to the spectator.
+    /// </summary>
+    /// <param name="probe"></param>
+    void AddProbe(IProbe probe);
 
-        void CheckHealth();
-    }
+    /// <summary>
+    /// Checks the health of the spectator.
+    /// </summary>
+    void CheckHealth();
 }

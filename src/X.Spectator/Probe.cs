@@ -1,39 +1,41 @@
 using System;
+using System.Collections.Immutable;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using X.Spectator.Base;
 
-namespace X.Spectator
+namespace X.Spectator;
+
+[PublicAPI]
+public class Probe : IProbe
 {
-    public class Probe : IProbe
-    {
-        private readonly Func<Task<ProbeResult>> _func;
+    private readonly Func<Task<ProbeResult>> _func;
         
-        public string Name { get; }
+    public string Name { get; }
 
-        public Probe(string name, Func<Task<ProbeResult>> func)
+    public Probe(string name, Func<Task<ProbeResult>> func)
+    {
+        Name = name;
+        _func = func;
+    }
+
+    public async Task<ProbeResult> Check()
+    {
+        try
         {
-            Name = name;
-            _func = func;
+            return await _func().ConfigureAwait(false);
         }
-
-        public async Task<ProbeResult> Check()
+        catch (Exception ex)
         {
-            try
+            return new ProbeResult
             {
-                return await _func().ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                return new ProbeResult
-                {
-                    ProbeName = Name,
-                    Time = DateTime.UtcNow,
-                    Success = false,
-                    Data = "",
-                    Exception = ex
-                };
-            }
-        } 
-            
+                ProbeName = Name,
+                Time = DateTime.UtcNow,
+                Status = HealthStatus.Unhealthy,
+                Data = ImmutableDictionary<string, object>.Empty, 
+                Exception = ex
+            };
+        }
     }
 }

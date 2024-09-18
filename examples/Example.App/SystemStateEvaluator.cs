@@ -1,22 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using X.Spectator.Base;
 
-namespace Example.App
+namespace Example.App;
+
+public class SystemStateEvaluator : IStateEvaluator<HealthStatus>
 {
-    public class SystemStateEvaluator : IStateEvaluator<SystemState>
+    public HealthStatus Evaluate(HealthStatus currentState, DateTime stateChangedLastTime, IReadOnlyCollection<JournalRecord> journal)
     {
-        public SystemState Evaluate(SystemState currentState, DateTime stateChangedLastTime, IReadOnlyCollection<JournalRecord> journal)
+        var last = journal.LastOrDefault();
+
+        if (last == null)
         {
-            var last = journal.Cast<JournalRecord?>().LastOrDefault();
-
-            if (last == null)
-                return SystemState.Normal;
-
-            return last.Value.Values.Any(o => !o.Success)
-                ? SystemState.Danger
-                : SystemState.Normal;
+            return HealthStatus.Healthy;
         }
+        
+        return last.Values.Any(o => o.Status == HealthStatus.Unhealthy)
+            ? HealthStatus.Degraded
+            : HealthStatus.Healthy;
     }
 }

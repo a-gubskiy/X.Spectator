@@ -1,11 +1,19 @@
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
-namespace X.Spectator.Base
+namespace X.Spectator.Base;
+
+[PublicAPI]
+public interface IProbe
 {
-    public interface IProbe
-    {
-        string Name { get; }
+    /// <summary>
+    /// Probe name
+    /// </summary>
+    string Name { get; }
         
-        Task<ProbeResult> Check();
-    }
+    /// <summary>
+    /// Execute probe
+    /// </summary>
+    /// <returns></returns>
+    Task<ProbeResult> Check();
 }

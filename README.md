@@ -1,8 +1,5 @@
 # X.Spectator
 
-[![NuGet version](https://badge.fury.io/nu/X.Spectator.svg)](https://badge.fury.io/nu/X.Spectator)
-
-
 X.Spectator is a powerful library designed to help developers easily integrate real-time monitoring and analytics into their .NET applications. With X.Spectator 2.0, we introduce a range of new features and improvements that enhance performance, usability, and flexibility.
 
 More [information about library](https://andrey-gubskiy.medium.com/x-spectator-2-0-bea1c9073eab) on Medium.

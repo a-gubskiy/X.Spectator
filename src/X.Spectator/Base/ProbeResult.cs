@@ -9,7 +9,7 @@ namespace X.Spectator.Base;
 public struct ProbeResult
 {
     /// <summary>
-    /// Probe name.
+    /// Name of the probe for which the result is generated.
     /// </summary>
     public string ProbeName { get; set; }
 
@@ -22,6 +22,7 @@ public struct ProbeResult
     /// Result of the probe.
     /// </summary>
     public HealthCheckResult Value { get; set; }
+    
 
     /// <summary>
     /// Returns the fully qualified type name of this instance.

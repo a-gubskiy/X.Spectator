@@ -53,15 +53,19 @@ public class Tests
                 var data = journal.TakeLast(3).ToImmutableList();
 
                 var totalChecks = data.Count;
-                var failedChecks = data.Count(o => o.Values.Any(v => v.Status == HealthStatus.Unhealthy));
+                var failedChecks = data.Count(o => o.Values.Any(v => v.Value.Status == HealthStatus.Unhealthy));
 
                 if (failedChecks == 0)
-                    return HealthStatus.Healthy;
+                {
+                    return HealthCheckResult.Healthy();
+                }
 
                 if (failedChecks == 1)
-                    return HealthStatus.Degraded;
+                {
+                    return HealthCheckResult.Degraded();
+                }
 
-                return HealthStatus.Unhealthy;
+                return HealthCheckResult.Unhealthy();
             });
 
         IStateEvaluator<HealthStatus> stateEvaluator = stateEvaluatorMock.Object;
@@ -102,10 +106,8 @@ public class Tests
     {
         return new ProbeResult
         {
-            Status = value ? HealthStatus.Healthy : HealthStatus.Unhealthy,
-            Data = ImmutableDictionary<string, object>.Empty,
+            Value = value ? HealthCheckResult.Healthy() : HealthCheckResult.Unhealthy(),
             Time = DateTime.UtcNow,
-            Exception = null,
             ProbeName = "TEST"
         };
     }
@@ -123,6 +125,6 @@ public class Tests
 
         var result = await probe.Check();
             
-        Assert.True(result.Status == HealthStatus.Healthy);
+        Assert.True(result.Value.Status == HealthStatus.Healthy);
     }
 }

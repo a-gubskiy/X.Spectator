@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -139,7 +140,12 @@ public class SpectatorBase<TState> : ISpectator<TState>
 
         if (!EqualityComparer<TState>.Default.Equals(State, state))
         {
-            ChangeState(state, results.Where(o => o.Status == HealthStatus.Unhealthy).Select(o => o.ProbeName));
+            var failedProbes = results
+                .Where(o => o.Value.Status == HealthStatus.Unhealthy)
+                .Select(o => o.ProbeName)
+                .ToImmutableList();
+            
+            ChangeState(state, failedProbes);
         }
 
         OnHealthChecked(now, results);

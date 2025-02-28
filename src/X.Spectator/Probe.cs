@@ -14,7 +14,7 @@ namespace X.Spectator;
 public class Probe : IProbe
 {
     private readonly Func<Task<ProbeResult>> _func;
-        
+
     public string Name { get; }
 
     public Probe(string name, Func<Task<ProbeResult>> func)
@@ -35,9 +35,7 @@ public class Probe : IProbe
             {
                 ProbeName = Name,
                 Time = DateTime.UtcNow,
-                Status = HealthStatus.Unhealthy,
-                Data = ImmutableDictionary<string, object>.Empty, 
-                Exception = ex
+                Value = HealthCheckResult.Unhealthy(exception: ex)
             };
         }
     }

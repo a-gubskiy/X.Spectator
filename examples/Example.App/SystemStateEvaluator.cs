@@ -17,7 +17,7 @@ public class SystemStateEvaluator : IStateEvaluator<HealthStatus>
             return HealthStatus.Healthy;
         }
         
-        return last.Values.Any(o => o.Status == HealthStatus.Unhealthy)
+        return last.Values.Any(o => o.Value.Status == HealthStatus.Unhealthy)
             ? HealthStatus.Degraded
             : HealthStatus.Healthy;
     }

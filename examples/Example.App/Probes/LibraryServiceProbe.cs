@@ -29,20 +29,22 @@ public class LibraryServiceProbe : IProbe
         {
             Time = DateTime.UtcNow,
             ProbeName = Name,
-            Status = HealthStatus.Unhealthy
+            Value = HealthCheckResult.Degraded()
         };
 
         try
         {
             if (_service.TotalBookCount > _minimumBookCount)
             {
-                result.Status = HealthStatus.Healthy;
+                result.Value = HealthCheckResult.Healthy();
             }
         }
         catch (Exception ex)
         {
-            result.Exception = ex;
-            result.Data = new Dictionary<string, object>{{"exception-message", ex.Message}};
+            result.Value = HealthCheckResult.Unhealthy(
+                exception: ex,
+                data: new Dictionary<string, object> { { "exception-message", ex.Message } }
+            );
         }
 
         return Task.FromResult(result);

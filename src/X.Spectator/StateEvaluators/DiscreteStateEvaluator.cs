@@ -5,6 +5,9 @@ using X.Spectator.Base;
 
 namespace X.Spectator.StateEvaluators;
 
+/// <summary>
+/// Discrete state evaluator.
+/// </summary>
 [PublicAPI]
 public abstract class DiscreteStateEvaluator : IStateEvaluator<int>
 {

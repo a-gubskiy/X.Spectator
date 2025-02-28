@@ -11,6 +11,10 @@ public interface IAutomatedSpectator<TState> : ISpectator<TState>
     void Start();
 }
 
+/// <summary>
+/// Automated spectator that periodically checks the health of the system.
+/// </summary>
+/// <typeparam name="TState"></typeparam>
 public class AutomatedSpectator<TState> : SpectatorBase<TState>, IAutomatedSpectator<TState> 
     where TState : struct, IConvertible
 {

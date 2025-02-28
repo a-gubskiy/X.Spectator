@@ -7,6 +7,9 @@ using X.Spectator.Base;
 
 namespace X.Spectator;
 
+/// <summary>
+/// Probe implementation.
+/// </summary>
 [PublicAPI]
 public class Probe : IProbe
 {

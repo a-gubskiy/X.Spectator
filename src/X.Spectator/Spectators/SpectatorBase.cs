@@ -10,6 +10,10 @@ using X.Spectator.Base;
 
 namespace X.Spectator.Spectators;
 
+/// <summary>
+/// The base class for all spectators.
+/// </summary>
+/// <typeparam name="TState"></typeparam>
 [PublicAPI]
 public class SpectatorBase<TState> : ISpectator<TState> 
     where TState : struct, IConvertible

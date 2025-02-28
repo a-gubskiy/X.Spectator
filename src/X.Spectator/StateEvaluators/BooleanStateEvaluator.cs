@@ -5,8 +5,11 @@ using X.Spectator.Base;
 
 namespace X.Spectator.StateEvaluators;
 
+/// <summary>
+/// Boolean state evaluator.
+/// </summary>
 [PublicAPI]
-public abstract class BooleanStateEvaluators : IStateEvaluator<bool>
+public abstract class BooleanStateEvaluator : IStateEvaluator<bool>
 {
     public abstract bool Evaluate(
         bool currentState, 

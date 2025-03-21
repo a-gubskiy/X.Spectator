@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>X.Spectator</Title>
         <Description>Framework for monitoring the state of the system and system modules.</Description>
@@ -11,13 +10,14 @@
         <LangVersion>default</LangVersion>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageIconUrl>https://ru.gravatar.com/userimage/8071071/f2dc08ee7e4016451f64a7ae9cffd110.png?size=200</PackageIconUrl>
-        <Version>2.0.3</Version>
-        <AssemblyVersion>2.0.3</AssemblyVersion>
-        <FileVersion>2.0.3</FileVersion>
-        <PackageVersion>2.0.3</PackageVersion>
+        <Version>2.1.0.</Version>
+        <AssemblyVersion>2.1.0</AssemblyVersion>
+        <FileVersion>2.1.0.</FileVersion>
+        <PackageVersion>2.1.0.</PackageVersion>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/ernado-x/x.spectator</RepositoryUrl>
         <Nullable>enable</Nullable>
+        <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     </PropertyGroup>
 
     <PropertyGroup>

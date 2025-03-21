@@ -5,7 +5,7 @@ using X.Spectator.Spectators;
 
 namespace Example.App;
 
-public class SystemSpectator : AutomatedSpectator<HealthStatus>
+public class SystemSpectator : AutomatedSpectator<HealthStatus>, IHealthStatusSpectator
 {
     public SystemSpectator(TimeSpan checkHealthPeriod, IStateEvaluator<HealthStatus> stateEvaluator, TimeSpan retentionPeriod, HealthStatus initialState)
         : base(checkHealthPeriod, retentionPeriod, stateEvaluator, initialState)

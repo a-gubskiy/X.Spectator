@@ -31,7 +31,7 @@ public class AutomatedSpectator<TState> : SpectatorBase<TState>, IAutomatedSpect
         CheckHealthPeriod = checkHealthPeriod;
 
         _timer = new System.Timers.Timer(CheckHealthPeriod.TotalMilliseconds);
-        _timer.Elapsed += (sender, args) => CheckHealth();
+        _timer.Elapsed += (_, _) => CheckHealth();
         _timer.AutoReset = true;
     }
 

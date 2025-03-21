@@ -40,14 +40,14 @@ public class Tests
             return Task.FromResult(result);
         });
 
-        var stateEvaluatorMock = new Mock<IStateEvaluator<HealthCheckResult>>();
+        var stateEvaluatorMock = new Mock<IStateEvaluator<HealthStatus>>();
 
         stateEvaluatorMock
             .Setup(o => o.Evaluate(
-                It.IsAny<HealthCheckResult>(),
+                It.IsAny<HealthStatus>(),
                 It.IsAny<DateTime>(),
                 It.IsAny<IReadOnlyCollection<JournalRecord>>()))
-            .Returns((HealthCheckResult currentState,
+            .Returns((HealthStatus currentState,
                 DateTime stateChangedLastTime,
                 IReadOnlyCollection<JournalRecord> journal) =>
             {
@@ -58,27 +58,27 @@ public class Tests
 
                 if (failedChecks == 0)
                 {
-                    return HealthCheckResult.Healthy();
+                    return HealthStatus.Healthy;
                 }
 
                 if (failedChecks == 1)
                 {
-                    return HealthCheckResult.Degraded();
+                    return HealthStatus.Degraded;
                 }
 
-                return HealthCheckResult.Unhealthy();
+                return HealthStatus.Unhealthy;
             });
 
-        IStateEvaluator<HealthCheckResult> stateEvaluator = stateEvaluatorMock.Object;
+        IStateEvaluator<HealthStatus> stateEvaluator = stateEvaluatorMock.Object;
         TimeSpan retentionPeriod = TimeSpan.FromMinutes(10);
 
         var spectator =
-            new SpectatorBase<HealthCheckResult>(stateEvaluator, retentionPeriod, HealthCheckResult.Unhealthy());
+            new SpectatorBase<HealthStatus>(stateEvaluator, retentionPeriod, HealthStatus.Unhealthy);
 
         spectator.AddProbe(probe1);
         spectator.AddProbe(probe2);
 
-        var states = new List<HealthCheckResult>();
+        var states = new List<HealthStatus>();
 
         spectator.HealthChecked += (sender, args) => { };
 
@@ -89,13 +89,13 @@ public class Tests
             spectator.CheckHealth();
         }
 
-        var expected = new HealthCheckResult[]
+        var expected = new[]
         {
-            HealthCheckResult.Healthy(),
-            HealthCheckResult.Degraded(),
-            HealthCheckResult.Unhealthy(),
-            HealthCheckResult.Degraded(),
-            HealthCheckResult.Healthy()
+            HealthStatus.Healthy,
+            HealthStatus.Degraded,
+            HealthStatus.Unhealthy,
+            HealthStatus.Degraded,
+            HealthStatus.Healthy
         };
 
 

@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 namespace X.Spectator.Base;
 
 [PublicAPI]
-public interface ISpectator<TState> where TState : struct
+public interface ISpectator<TState>
 {
     /// <summary>
     /// Event that is triggered when the state of the spectator changes.

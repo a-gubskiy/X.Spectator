@@ -18,12 +18,26 @@ public class Tests
     {
         var probe1States = new Queue<ProbeResult>(
         [
-            C(true), C(true), C(true), C(false), C(true), C(true), C(true), C(true)
+            Create(true),
+            Create(true),
+            Create(true),
+            Create(false),
+            Create(true),
+            Create(true),
+            Create(true),
+            Create(true)
         ]);
 
         var probe2States = new Queue<ProbeResult>(
         [
-            C(true), C(true), C(false), C(true), C(false), C(true), C(true), C(true)
+            Create(true),
+            Create(true),
+            Create(false),
+            Create(true),
+            Create(false),
+            Create(true),
+            Create(true),
+            Create(true)
         ]);
 
         IProbe probe1 = new Probe("Test-1", () =>
@@ -69,11 +83,10 @@ public class Tests
                 return HealthStatus.Unhealthy;
             });
 
-        IStateEvaluator<HealthStatus> stateEvaluator = stateEvaluatorMock.Object;
-        TimeSpan retentionPeriod = TimeSpan.FromMinutes(10);
+        var stateEvaluator = stateEvaluatorMock.Object;
+        var retentionPeriod = TimeSpan.FromMinutes(10);
 
-        var spectator =
-            new SpectatorBase<HealthStatus>(stateEvaluator, retentionPeriod, HealthStatus.Unhealthy);
+        var spectator = new SpectatorBase<HealthStatus>(stateEvaluator, retentionPeriod, HealthStatus.Unhealthy);
 
         spectator.AddProbe(probe1);
         spectator.AddProbe(probe2);
@@ -98,19 +111,16 @@ public class Tests
             HealthStatus.Healthy
         };
 
-
         Assert.Equal(expected.ToArray(), states.ToArray());
     }
 
-    private ProbeResult C(bool value)
-    {
-        return new ProbeResult
+    private static ProbeResult Create(bool value) =>
+        new()
         {
             Value = value ? HealthCheckResult.Healthy() : HealthCheckResult.Unhealthy(),
             Time = DateTime.UtcNow,
             ProbeName = "TEST"
         };
-    }
 
     [Fact]
     public async Task TestProbe()
@@ -119,7 +129,7 @@ public class Tests
 
         probeMock
             .Setup(o => o.Check())
-            .Returns(() => Task.FromResult(C(true)));
+            .Returns(() => Task.FromResult(Create(true)));
 
         var probe = probeMock.Object;
 

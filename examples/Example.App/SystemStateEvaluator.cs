@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using X.Spectator.Base;
+using X.Spectator.StateEvaluators;
 
 namespace Example.App;
 
-public class SystemStateEvaluator : IStateEvaluator<HealthStatus>
+public class SystemStateEvaluator : HealthStatusStateEvaluator
 {
-    public HealthStatus Evaluate(HealthStatus currentState, DateTime stateChangedLastTime, IReadOnlyCollection<JournalRecord> journal)
+    public override HealthStatus Evaluate(HealthStatus currentState, DateTime stateChangedLastTime, IReadOnlyCollection<JournalRecord> journal)
     {
         var last = journal.LastOrDefault();
 

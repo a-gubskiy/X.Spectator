@@ -69,6 +69,7 @@ public class CityHostedService : IHostedService
     private void GetNewBooksFromPublishingHouse()
     {
         var booksCount = _publishingHouse.PublishBooks();
+        
         _library.AddBooks(booksCount);
             
         Console.WriteLine($"{booksCount} new books were delivered to the library");

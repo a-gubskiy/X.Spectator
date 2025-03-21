@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Example.App.Probes;
 using Example.App.Services;
@@ -47,7 +48,7 @@ public class Program
             
         spectator.AddProbe(libraryServiceProbe);
 
-        spectator.Start();
+        spectator.StartAsync(CancellationToken.None);
             
         return spectator;
     }

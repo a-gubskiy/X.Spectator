@@ -1,12 +1,12 @@
 using JetBrains.Annotations;
+using Microsoft.Extensions.Hosting;
 using X.Spectator.Base;
 
 namespace X.Spectator.Spectators;
 
 [PublicAPI]
-public interface IAutomatedSpectator<TState> : ISpectator<TState> 
+public interface IAutomatedSpectator<TState> : ISpectator<TState>, IHostedService
 {
-    void Start();
 }
 
 /// <summary>
@@ -31,6 +31,18 @@ public class AutomatedSpectator<TState> : SpectatorBase<TState>, IAutomatedSpect
         _timer.Elapsed += (_, _) => CheckHealth();
         _timer.AutoReset = true;
     }
+    
+    public Task StartAsync(CancellationToken cancellationToken)
+    {
+        _timer.Start();
+        
+        return Task.CompletedTask;
+    }
 
-    public void Start() => _timer.Start();
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        _timer.Stop();
+        
+        return Task.CompletedTask;
+    }
 }

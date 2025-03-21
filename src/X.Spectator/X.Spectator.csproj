@@ -1,29 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>X.Spectator</Title>
         <Description>Framework for monitoring the state of the system and system modules.</Description>
-        <Authors>Andrew Gubskiy</Authors>
-        <Copyright>Andrew Gubskiy © 2025</Copyright>
-        <Company>Ukrainian .NET Developer Community</Company>
-        <LangVersion>default</LangVersion>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageIconUrl>https://ru.gravatar.com/userimage/8071071/f2dc08ee7e4016451f64a7ae9cffd110.png?size=200</PackageIconUrl>
-
-        <RepositoryType>git</RepositoryType>
-        <RepositoryUrl>https://github.com/ernado-x/x.spectator</RepositoryUrl>
+        <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <PackageTags>monitoring</PackageTags>
         <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+        <LangVersion>default</LangVersion>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    </PropertyGroup>
 
     <ItemGroup>
-        <None Include="../../LICENSE" Pack="true" PackagePath=""/>
-        <None Include="../../README.md" Pack="true" PackagePath=""/>
+        <None Include="../../README.md" Pack="true" PackagePath="\"/>
+        <None Include="../../LICENSE" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="../../x.png" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
     <ItemGroup>

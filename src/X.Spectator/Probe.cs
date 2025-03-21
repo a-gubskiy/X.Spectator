@@ -20,6 +20,7 @@ public class Probe : IProbe
     public Probe(string name, Func<Task<ProbeResult>> func)
     {
         Name = name;
+        
         _func = func;
     }
 

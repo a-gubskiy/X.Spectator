@@ -1,4 +1,3 @@
-using System;
 using JetBrains.Annotations;
 using X.Spectator.Base;
 
@@ -6,7 +5,6 @@ namespace X.Spectator.Spectators;
 
 [PublicAPI]
 public interface IAutomatedSpectator<TState> : ISpectator<TState> 
-    where TState : struct, IConvertible
 {
     void Start();
 }
@@ -16,7 +14,6 @@ public interface IAutomatedSpectator<TState> : ISpectator<TState>
 /// </summary>
 /// <typeparam name="TState"></typeparam>
 public class AutomatedSpectator<TState> : SpectatorBase<TState>, IAutomatedSpectator<TState> 
-    where TState : struct, IConvertible
 {
     public TimeSpan CheckHealthPeriod { get; }
 

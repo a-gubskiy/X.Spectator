@@ -17,7 +17,6 @@ namespace X.Spectator.Spectators;
 /// <typeparam name="TState"></typeparam>
 [PublicAPI]
 public class SpectatorBase<TState> : ISpectator<TState>
-    where TState : struct
 {
     private TState _state;
 

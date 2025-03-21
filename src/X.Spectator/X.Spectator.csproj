@@ -5,15 +5,12 @@
         <Title>X.Spectator</Title>
         <Description>Framework for monitoring the state of the system and system modules.</Description>
         <Authors>Andrew Gubskiy</Authors>
-        <Copyright>Andrew Gubskiy © 2024</Copyright>
+        <Copyright>Andrew Gubskiy © 2025</Copyright>
         <Company>Ukrainian .NET Developer Community</Company>
         <LangVersion>default</LangVersion>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageIconUrl>https://ru.gravatar.com/userimage/8071071/f2dc08ee7e4016451f64a7ae9cffd110.png?size=200</PackageIconUrl>
-        <Version>2.1.0.</Version>
-        <AssemblyVersion>2.1.0</AssemblyVersion>
-        <FileVersion>2.1.0.</FileVersion>
-        <PackageVersion>2.1.0.</PackageVersion>
+
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/ernado-x/x.spectator</RepositoryUrl>
         <Nullable>enable</Nullable>

@@ -16,7 +16,7 @@ namespace X.Spectator.Spectators;
 /// </summary>
 /// <typeparam name="TState"></typeparam>
 [PublicAPI]
-public class SpectatorBase<TState> : ISpectator<TState> 
+public class SpectatorBase<TState> : ISpectator<TState>
     where TState : struct, IConvertible
 {
     private TState _state;
@@ -29,7 +29,7 @@ public class SpectatorBase<TState> : ISpectator<TState>
     private readonly Stopwatch _stopwatch;
 
     public event EventHandler<StateEventArgs<TState>>? StateChanged;
-    
+
     public event EventHandler<HealthCheckEventArgs>? HealthChecked;
 
     public virtual TState State
@@ -37,7 +37,7 @@ public class SpectatorBase<TState> : ISpectator<TState>
         get
         {
             _stateLock.EnterReadLock();
-                
+
             try
             {
                 return _state;
@@ -58,7 +58,7 @@ public class SpectatorBase<TState> : ISpectator<TState>
         get
         {
             _journalLock.EnterReadLock();
-                
+
             try
             {
                 return _journal;
@@ -69,7 +69,7 @@ public class SpectatorBase<TState> : ISpectator<TState>
             }
         }
     }
-        
+
     public DateTime StateChangedDate { get; private set; }
 
     public TimeSpan RetentionPeriod { get; private set; }
@@ -79,7 +79,7 @@ public class SpectatorBase<TState> : ISpectator<TState>
         RetentionPeriod = retentionPeriod;
         StateChangedDate = DateTime.UtcNow;
         Name = "";
-            
+
         _state = initialState;
         _stateEvaluator = stateEvaluator;
         _stopwatch = Stopwatch.StartNew();
@@ -120,14 +120,14 @@ public class SpectatorBase<TState> : ISpectator<TState>
         Task.WaitAll(tasks);
 
         var now = DateTime.UtcNow;
-            
+
         _journalLock.EnterWriteLock();
-            
+
         try
         {
             //cleanup state records
             _journal.RemoveAll(o => o.Time < now.Subtract(RetentionPeriod));
-                
+
             _journal.Add(new JournalRecord(now, results));
         }
         finally
@@ -144,7 +144,7 @@ public class SpectatorBase<TState> : ISpectator<TState>
                 .Where(o => o.Value.Status == HealthStatus.Unhealthy)
                 .Select(o => o.ProbeName)
                 .ToImmutableList();
-            
+
             ChangeState(state, failedProbes);
         }
 

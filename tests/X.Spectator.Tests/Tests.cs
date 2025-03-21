@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Moq;
 using X.Spectator.Base;
 using X.Spectator.Spectators;
 using Xunit;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace X.Spectator.Tests;
 

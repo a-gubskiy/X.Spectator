@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using JetBrains.Annotations;
 
@@ -9,7 +7,7 @@ namespace X.Spectator.Base;
 /// Represents a journal record.
 /// </summary>
 [PublicAPI]
-public class JournalRecord
+public record JournalRecord
 {
     /// <summary>
     /// Default constructor.
@@ -25,12 +23,12 @@ public class JournalRecord
     /// <summary>
     /// Time of the journal record.
     /// </summary>
-    public DateTime Time { get; set; }
+    public DateTime Time { get; init; }
         
     /// <summary>
     /// Values of the journal record.
     /// </summary>
-    public IReadOnlyCollection<ProbeResult> Values { get; set; }
+    public IReadOnlyCollection<ProbeResult> Values { get; init; }
 
     /// <summary>
     /// Returns a string representation of the journal record.

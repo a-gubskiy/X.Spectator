@@ -13,40 +13,41 @@ namespace X.Spectator.Tests;
 
 public class Tests
 {
-
     [Fact]
     public async Task TestSpectatorBase()
     {
-        var probe1States = new Queue<ProbeResult>(new[]
-            {C(true), C(true), C(true), C(false), C(true), C(true), C(true), C(true)}
-        );
+        var probe1States = new Queue<ProbeResult>(
+        [
+            C(true), C(true), C(true), C(false), C(true), C(true), C(true), C(true)
+        ]);
 
-        var probe2States = new Queue<ProbeResult>(new[]
-            {C(true), C(true), C(false), C(true), C(false), C(true), C(true), C(true)}
-        );
+        var probe2States = new Queue<ProbeResult>(
+        [
+            C(true), C(true), C(false), C(true), C(false), C(true), C(true), C(true)
+        ]);
 
         IProbe probe1 = new Probe("Test-1", () =>
         {
             var result = probe1States.Dequeue();
-            result.ProbeName = "Test-1";
-            return Task.FromResult(result);
-        });
-            
-        IProbe probe2 = new Probe("Test-2", () =>
-        {
-            var result = probe2States.Dequeue();
-            result.ProbeName = "Test-2";
+            // result.ProbeName = "Test-1";
             return Task.FromResult(result);
         });
 
-        var stateEvaluatorMock = new Mock<IStateEvaluator<HealthStatus>>();
-            
+        IProbe probe2 = new Probe("Test-2", () =>
+        {
+            var result = probe2States.Dequeue();
+            // result.ProbeName = "Test-2";
+            return Task.FromResult(result);
+        });
+
+        var stateEvaluatorMock = new Mock<IStateEvaluator<HealthCheckResult>>();
+
         stateEvaluatorMock
             .Setup(o => o.Evaluate(
-                It.IsAny<HealthStatus>(),
+                It.IsAny<HealthCheckResult>(),
                 It.IsAny<DateTime>(),
                 It.IsAny<IReadOnlyCollection<JournalRecord>>()))
-            .Returns((HealthStatus currentState,
+            .Returns((HealthCheckResult currentState,
                 DateTime stateChangedLastTime,
                 IReadOnlyCollection<JournalRecord> journal) =>
             {
@@ -68,37 +69,36 @@ public class Tests
                 return HealthCheckResult.Unhealthy();
             });
 
-        IStateEvaluator<HealthStatus> stateEvaluator = stateEvaluatorMock.Object;
+        IStateEvaluator<HealthCheckResult> stateEvaluator = stateEvaluatorMock.Object;
         TimeSpan retentionPeriod = TimeSpan.FromMinutes(10);
-            
-        var spectator = new SpectatorBase<HealthStatus>(stateEvaluator, retentionPeriod, HealthStatus.Unhealthy);
-            
+
+        var spectator =
+            new SpectatorBase<HealthCheckResult>(stateEvaluator, retentionPeriod, HealthCheckResult.Unhealthy());
+
         spectator.AddProbe(probe1);
         spectator.AddProbe(probe2);
 
-        var states = new List<HealthStatus>();
+        var states = new List<HealthCheckResult>();
 
-        spectator.HealthChecked += (sender, args) =>
-        {
-                
-        };
-            
-        spectator.StateChanged += (sender, args) =>
-        {
-            states.Add(args.State);
-        };
+        spectator.HealthChecked += (sender, args) => { };
+
+        spectator.StateChanged += (sender, args) => { states.Add(args.State); };
 
         for (int i = 0; i < 8; i++)
         {
             spectator.CheckHealth();
         }
 
-        var expected = new HealthStatus[]
+        var expected = new HealthCheckResult[]
         {
-            HealthStatus.Healthy, HealthStatus.Degraded, HealthStatus.Unhealthy, HealthStatus.Degraded, HealthStatus.Healthy
+            HealthCheckResult.Healthy(),
+            HealthCheckResult.Degraded(),
+            HealthCheckResult.Unhealthy(),
+            HealthCheckResult.Degraded(),
+            HealthCheckResult.Healthy()
         };
 
-            
+
         Assert.Equal(expected.ToArray(), states.ToArray());
     }
 
@@ -116,15 +116,15 @@ public class Tests
     public async Task TestProbe()
     {
         var probeMock = new Mock<IProbe>();
-            
+
         probeMock
             .Setup(o => o.Check())
             .Returns(() => Task.FromResult(C(true)));
-            
+
         var probe = probeMock.Object;
 
         var result = await probe.Check();
-            
-        Assert.True(result.Value.Status == HealthStatus.Healthy);
+
+        Assert.True(result.Value.Status == HealthCheckResult.Healthy().Status);
     }
 }

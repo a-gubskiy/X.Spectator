@@ -36,15 +36,18 @@ public class LibraryServiceProbe : IProbe
         {
             if (_service.TotalBookCount > _minimumBookCount)
             {
-                result.Value = HealthCheckResult.Healthy();
+                result = result with { Value = HealthCheckResult.Healthy() };
             }
         }
         catch (Exception ex)
         {
-            result.Value = HealthCheckResult.Unhealthy(
-                exception: ex,
-                data: new Dictionary<string, object> { { "exception-message", ex.Message } }
-            );
+            result = result with
+            {
+                Value = HealthCheckResult.Unhealthy(
+                    exception: ex,
+                    data: new Dictionary<string, object> { { "exception-message", ex.Message } }
+                )
+            };
         }
 
         return Task.FromResult(result);

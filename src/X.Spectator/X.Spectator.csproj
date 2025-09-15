@@ -24,7 +24,7 @@
         <PackageReference Include="JetBrains.Annotations" Version="2025.2.2" PrivateAssets="all" />
         <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" Version="9.0.8" />
         <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.8" />
-        <PackageReference Include="System.Collections.Immutable" Version="9.0.8" />
+        <PackageReference Include="System.Collections.Immutable" Version="9.0.9" />
     </ItemGroup>
 
 </Project>

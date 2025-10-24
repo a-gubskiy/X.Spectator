@@ -6,17 +6,20 @@ namespace X.Spectator.Base;
 public interface IStateEvaluator<TState>
 {
     /// <summary>
-    /// Evaluates the state of the spectator.
+    /// Evaluates the state of the spectator based on the current state, the time the state last changed, and the spectator's journal.
     /// </summary>
+    /// <typeparam name="TState">The type used to represent the spectator's state.</typeparam>
     /// <param name="currentState">
-    /// Current state of the spectator.    
+    /// Current state of the spectator.
     /// </param>
     /// <param name="stateChangedLastTime">
     /// The time when the state of the spectator was changed last time.
     /// </param>
     /// <param name="journal">
-    /// Journal of the spectator.
+    /// Journal of the spectator containing historical records or events relevant to state evaluation.
     /// </param>
-    /// <returns></returns>
+    /// <returns>
+    /// The evaluated state of type <typeparamref name="TState"/>. Implementations should return the new or updated state resulting from the evaluation.
+    /// </returns>
     TState Evaluate(TState currentState, DateTime stateChangedLastTime, IReadOnlyCollection<JournalRecord> journal);
 }

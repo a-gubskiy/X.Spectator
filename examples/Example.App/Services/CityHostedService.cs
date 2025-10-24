@@ -51,9 +51,11 @@ public class CityHostedService : IHostedService
         Console.ForegroundColor = ConsoleColor.White;
     }
 
-    public async Task StartAsync(CancellationToken cancellationToken)
+    public Task StartAsync(CancellationToken cancellationToken)
     {
         _timer.Start();
+        
+        return Task.CompletedTask;
     }
 
     private void TimerOnElapsed(object sender, ElapsedEventArgs e)
@@ -82,5 +84,10 @@ public class CityHostedService : IHostedService
         Console.WriteLine($"One book was taken from the library. {_library.TotalBookCount} books left");
     }
 
-    public async Task StopAsync(CancellationToken cancellationToken) => _timer.Stop();
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        _timer.Stop();
+        
+        return Task.CompletedTask;
+    }
 }

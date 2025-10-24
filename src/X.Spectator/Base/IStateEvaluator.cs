@@ -8,7 +8,6 @@ public interface IStateEvaluator<TState>
     /// <summary>
     /// Evaluates the state of the spectator based on the current state, the time the state last changed, and the spectator's journal.
     /// </summary>
-    /// <typeparam name="TState">The type used to represent the spectator's state.</typeparam>
     /// <param name="currentState">
     /// Current state of the spectator.
     /// </param>

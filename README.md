@@ -1,5 +1,9 @@
 # X.Spectator
 
+[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor_on_GitHub-ff7f00?logo=github&logoColor=white&style=for-the-badge)](https://github.com/sponsors/a-gubskiy)
+[![Subscribe on X](https://img.shields.io/badge/Subscribe_on_X-000000?logo=x&logoColor=white&style=for-the-badge)](https://x.com/andrew_gubskiy)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/X.Spectator?style=for-the-badge&label=NuGet%20Downloads&color=004880&logo=nuget&logoColor=white)](https://www.nuget.org/packages/X.Spectator)
+
 X.Spectator is a powerful library designed to help developers easily integrate real-time monitoring and analytics into their .NET applications. With X.Spectator 2.0, we introduce a range of new features and improvements that enhance performance, usability, and flexibility.
 
 More [information about library](https://andrey-gubskiy.medium.com/x-spectator-2-0-bea1c9073eab) on Medium.

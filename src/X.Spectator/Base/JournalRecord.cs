@@ -33,6 +33,5 @@ public record JournalRecord
     /// <summary>
     /// Returns a string representation of the journal record.
     /// </summary>
-    /// <returns></returns>
     public override string ToString() => $"{Time}: [{string.Join(",", Values)}]";
 }

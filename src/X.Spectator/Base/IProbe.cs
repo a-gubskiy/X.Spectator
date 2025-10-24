@@ -13,6 +13,5 @@ public interface IProbe
     /// <summary>
     /// Execute probe
     /// </summary>
-    /// <returns></returns>
     Task<ProbeResult> Check();
 }

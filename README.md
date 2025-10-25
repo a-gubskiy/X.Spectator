@@ -9,7 +9,6 @@ It provides a clean, event-driven model for observing system health, diagnostics
 
 > Designed for developers who need a flexible, composable monitoring layer that integrates seamlessly with modern .NET health checks and diagnostics.
 
----
 
 ## ✨ Key Features
 
@@ -19,7 +18,6 @@ It provides a clean, event-driven model for observing system health, diagnostics
 - **Flexible Extensions** — implement custom probes, evaluators, and journal strategies.  
 - **Asynchronous Support** — works both in synchronous and background modes.  
 
----
 
 ## 🧠 Core Concepts
 
@@ -38,13 +36,12 @@ public interface IProbe
 }
 ```
 
-⸻
 
 ### **Spectator**
 
 An `ISpectator` instance aggregates multiple probes, polls them periodically, and raises events:
-	•	StateChanged — when system health transitions
-	•	HealthChecked — after each probe cycle
+- **StateChanged** — when system health transitions
+- **HealthChecked** — after each probe cycle
 
 ```csharp
 public interface ISpectator<TState>
@@ -57,10 +54,8 @@ public interface ISpectator<TState>
 ```
 
 Built-in implementations include:
-	•	`SpectatorBase<TState>` — synchronous monitoring base class
-	•	`AutomatedSpectator<TState>` — asynchronous, background monitoring (implements `IHostedService`)
-
-⸻
+- `SpectatorBase<TState>` — synchronous monitoring base class
+- `AutomatedSpectator<TState>` — asynchronous, background monitoring (implements `IHostedService`)
 
 ### **State Evaluator**
 
@@ -72,8 +67,6 @@ public interface IStateEvaluator<TState>
     TState Evaluate(TState currentState, DateTime stateChangedLastTime, IReadOnlyCollection<JournalRecord> journal);
 }
 ```
-
-⸻
 
 ### **Journal**
 
@@ -87,22 +80,23 @@ public record JournalRecord
 }
 ```
 
-⸻
 
-##⚙️ Installation
+## ⚙️ Installation
 
 Install via NuGet:
 
+```bash
 dotnet add package X.Spectator
+```
 
 Or update your project file:
 
+```xml
 <PackageReference Include="X.Spectator" Version="2.2.4" />
+```
 
-NuGet Package:
-https://www.nuget.org/packages/X.Spectator/
+NuGet Package: https://www.nuget.org/packages/X.Spectator/
 
-⸻
 
 ## 🧩 Example Usage
 
@@ -135,44 +129,33 @@ await spectator.StartAsync(CancellationToken.None);
 ```
 
 
-⸻
+## 🧪 Recent Improvements
 
-## 🧪 Recent Improvements (v2.2.x)
-	•	Replaced custom enums with native .NET `HealthStatus`
-	•	`ProbeResult` now wraps `HealthCheckResult` for full integration with .NET health checks
-	•	Improved asynchronous monitoring model with `IHostedService` support
-	•	Enhanced XML documentation and unit tests
-	•	Support for .NET 8.0 and .NET 9.0
+- Replaced custom enums with native .NET `HealthStatus`
+- `ProbeResult` now wraps `HealthCheckResult` for full integration with .NET health checks
+- Improved asynchronous monitoring model with `IHostedService` support
+- Enhanced XML documentation and unit tests
+- Support for .NET 8.0 and .NET 9.0
 
-Full changelog:
-https://github.com/a-gubskiy/X.Spectator/releases
+Full changelog: https://github.com/a-gubskiy/X.Spectator/releases
 
-⸻
 
-🤝 Contributing
+## 🤝 Contributing
 
-Contributions are welcome!
+Contributions are welcome!  
 If you want to improve or extend X.Spectator, please follow the standard GitHub flow:
-	1.	Fork the repository
-	2.	Create a branch (feature/YourFeature)
-	3.	Commit and push your changes
-	4.	Open a Pull Request
 
-⸻
+1. Fork the repository
+2. Create a branch (`feature/YourFeature`)
+3. Commit and push your changes
+4. Open a Pull Request
 
-📜 License
 
-Licensed under the MIT License.
-See the LICENSE file for details.
+## 🧭 Learn More
 
-⸻
+- 📖 Article: [X.Spectator 2.0 on Medium](https://medium.com/@andrew_gubskiy)
+- 📦 [NuGet Package](https://www.nuget.org/packages/X.Spectator)
+- 💻 [GitHub Repository](https://github.com/a-gubskiy/X.Spectator)
 
-🧭 Learn More
-	•	📖 Article: X.Spectator 2.0 on Medium
-	•	📦 NuGet Package
-	•	💻 GitHub Repository
 
-⸻
-
-💡 X.Spectator continues to evolve alongside .NET — bridging classic monitoring patterns with modern health diagnostics for high-reliability applications.
-
+X.Spectator continues to evolve alongside .NET — bridging classic monitoring patterns with modern health diagnostics for high-reliability applications.
